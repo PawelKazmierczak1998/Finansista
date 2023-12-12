@@ -7,22 +7,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Finansista.Data;
 using Finansista.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Finansista.Data.Enum;
 
 namespace Finansista.Controllers
 {
+    [Authorize]
     public class TransactionsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public TransactionsController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userMenager;
+        public TransactionsController(ApplicationDbContext context, UserManager<IdentityUser> userMenager)
         {
             _context = context;
+            _userMenager = userMenager;
         }
 
         // GET: Transactions
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Transaction.Include(t => t.Balance);
+            IdentityUser user = _userMenager.FindByNameAsync(User.Identity.Name).Result;
+            var applicationDbContext = _context.Transaction
+                .Include(t => t.Balance).
+                Include(e => e.Balance.user)
+                .Where(e => e.Balance.userId == user.Id)
+                ;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -48,7 +58,9 @@ namespace Finansista.Controllers
         // GET: Transactions/Create
         public IActionResult Create()
         {
-            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "Id");
+            IdentityUser user = _userMenager.FindByNameAsync(User.Identity.Name).Result;
+            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "accountName");
+
             return View();
         }
 
@@ -59,13 +71,15 @@ namespace Finansista.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,amount,description,balanceId,TransactionType")] Transaction transaction)
         {
+            IdentityUser user = _userMenager.FindByNameAsync(User.Identity.Name).Result;
             if (ModelState.IsValid)
             {
                 _context.Add(transaction);
-                await _context.SaveChangesAsync();
+                UpdateDataBase(transaction);
+                await _context.SaveChangesAsync();              
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "Id", transaction.balanceId);
+            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "accountName", transaction.balanceId);
             return View(transaction);
         }
 
@@ -82,7 +96,7 @@ namespace Finansista.Controllers
             {
                 return NotFound();
             }
-            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "Id", transaction.balanceId);
+            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "IaccountName", transaction.balanceId);
             return View(transaction);
         }
 
@@ -118,7 +132,7 @@ namespace Finansista.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "Id", transaction.balanceId);
+            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "accountName", transaction.balanceId);
             return View(transaction);
         }
 
@@ -163,6 +177,27 @@ namespace Finansista.Controllers
         private bool TransactionExists(int id)
         {
           return (_context.Transaction?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+        private void UpdateDataBase(Transaction transaction)
+        {
+
+            decimal currentBalance = _context.Transaction.Sum(t => t.TransactionType == TransactionType.Wpływy ? t.amount : -t.amount);
+            var balance = _context.Balance
+                .Where(e => e.Id == transaction.balanceId)
+                .FirstOrDefault();
+
+
+            if (transaction.TransactionType == TransactionType.Wpływy)
+            {
+                currentBalance += transaction.amount;
+            }
+            else
+            {
+                currentBalance -= transaction.amount;
+            }
+
+            balance.accountBalance = currentBalance;
+            _context.Update(balance);
         }
     }
 }

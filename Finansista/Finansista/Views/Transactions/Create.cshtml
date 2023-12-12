@@ -1,4 +1,5 @@
-﻿@model Finansista.Models.Transaction
+﻿@using Finansista.Data.Enum;
+@model Finansista.Models.Transaction
 
 @{
     ViewData["Title"] = "Create";
@@ -28,7 +29,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="TransactionType" class="control-label"></label>
-                <select asp-for="TransactionType" class="form-control"></select>
+                <select asp-for="TransactionType" class="form-control" asp-items="@Html.GetEnumSelectList<TransactionType>()">
+                    <option>---Select---</option>
+                </select>
                 <span asp-validation-for="TransactionType" class="text-danger"></span>
             </div>
             <div class="form-group">

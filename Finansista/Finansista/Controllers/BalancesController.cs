@@ -7,23 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Finansista.Data;
 using Finansista.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Finansista.Controllers
 {
+    [Authorize]
     public class BalancesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userMenager;
 
-        public BalancesController(ApplicationDbContext context)
+
+        public BalancesController(ApplicationDbContext context, UserManager<IdentityUser> userMenager)
         {
             _context = context;
+            _userMenager = userMenager;
         }
 
         // GET: Balances
         public async Task<IActionResult> Index()
         {
-              return _context.Balance != null ? 
-                          View(await _context.Balance.ToListAsync()) :
+            IdentityUser user = _userMenager.FindByNameAsync(User.Identity.Name).Result;
+            return _context.Balance != null ? 
+                          View(await _context.Balance.Include(e => e.user).Where(e => e.userId == user.Id).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Balance'  is null.");
         }
 
@@ -58,6 +65,8 @@ namespace Finansista.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,accountBalance,accountName")] Balance balance)
         {
+            IdentityUser user = _userMenager.FindByNameAsync(User.Identity.Name).Result;
+            balance.userId = user.Id;
             if (ModelState.IsValid)
             {
                 _context.Add(balance);
