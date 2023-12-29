@@ -31,7 +31,7 @@ namespace Finansista.Controllers
             var applicationDbContext = _context.Transaction
                 .Include(t => t.Balance).
                 Include(e => e.Balance.user)
-                .Where(e => e.Balance.userId == user.Id)
+                .Where(e => e.Balance.userId == user.Id )
                 ;
             return View(await applicationDbContext.ToListAsync());
         }
@@ -96,7 +96,7 @@ namespace Finansista.Controllers
             {
                 return NotFound();
             }
-            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "IaccountName", transaction.balanceId);
+            ViewData["balanceId"] = new SelectList(_context.Balance, "Id", "accountName", transaction.balanceId);
             return View(transaction);
         }
 
@@ -180,8 +180,8 @@ namespace Finansista.Controllers
         }
         private void UpdateDataBase(Transaction transaction)
         {
-
-            decimal currentBalance = _context.Transaction.Sum(t => t.TransactionType == TransactionType.Wpływy ? t.amount : -t.amount);
+           
+            decimal currentBalance = _context.Transaction.Where(e=> e.balanceId==transaction.balanceId).Sum(t => t.TransactionType == TransactionType.Wpływy ? t.amount : -t.amount);
             var balance = _context.Balance
                 .Where(e => e.Id == transaction.balanceId)
                 .FirstOrDefault();

@@ -1,0 +1,97 @@
+﻿@model List<Finansista.Models.Transaction>
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_Layout";
+    List<string> data = new List<string> { };
+    foreach (var item in Model.Select(e => e.Balance.accountName.Distinct().ToString()))
+    {
+        data.Add(item);
+    }
+
+}
+
+
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+      </div>
+
+      <canvas class="my-4 w-100 chartjs-render-monitor" id="myChart" width="1552" height="655" style="display: block; width: 1552px; height: 655px;"></canvas>
+
+      <h2>Transaction</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+                            <th scope="col">
+                                <p>Amount</p>
+                            </th>
+                            <th scope="col">
+                                <p>Description</p>                                
+                            </th>
+                            <th scope ="col">
+                                <p>Balance</p>                               
+                            </th>
+                            <th scope="col">
+                                <p>Type</p>                            
+                            </th>
+            </tr>
+          </thead>
+          <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.amount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Balance.accountName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransactionType)
+                                </td>                               
+                            </tr>
+                        }
+          </tbody>
+        </table>
+      </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    var ctx = document.getElementById('myChart');
+    var rawData = @Html.Raw(Json.Serialize(Model.ToList()));
+    // Grupowanie danych według balance
+    var groupedData = {};
+    rawData.forEach(function (item) {
+        if (!groupedData[item.balanceId]) {
+            groupedData[item.balanceId] = [];
+        }
+        groupedData[item.balanceId].push(item.amount);
+    });
+
+    // Konwertowanie danych do formatu oczekiwanego przez chart.js
+    var datasets = Object.keys(groupedData).map(function (balanceId) {
+        return {
+            label: 'BalanceId ' + balanceId,
+            data: groupedData[balanceId],
+            borderWidth: 1
+        };
+    });
+    var chart = new Chart(ctx, {
+        type:'line',
+        data: {
+            labels: @Html.Raw(Json.Serialize(Model.Select(p => p.Balance.accountBalance.ToString()).ToList())),
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

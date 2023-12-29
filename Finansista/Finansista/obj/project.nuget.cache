@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fSxaHej3hxpgCenXB0VsvCkDGWHwGxkI+BleyUPQss1QU6WvJFDvEWPFzI+5U1rWgbp8QQKVOKx3JpqImHB/rw==",
+  "dgSpecHash": "V2NZRmOM98MlCp3cVtuNUFYfk1k/q5wPYrBJUHGBv/wOFh8N8JlPi5N5gYFUtAgMjrFXkhLeFIPJIPyAFCQ8+w==",
   "success": true,
-  "projectFilePath": "P:\\Programming\\Projects\\Finansista\\Finansista\\Finansista.csproj",
+  "projectFilePath": "P:\\Programming\\Projects\\Repos\\Finansista\\Finansista\\Finansista\\Finansista.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dante\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Dante\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.23\\microsoft.aspnetcore.cryptography.internal.6.0.23.nupkg.sha512",
