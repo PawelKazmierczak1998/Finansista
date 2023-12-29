@@ -6,6 +6,6 @@ Asp.net core MVC webapp
 |Data Base   |            |
 |User handling|           |
 |U/G[^1] access split|        |
-|Veersion Control|            |
+|Veersion Control|       X     |
 
 [^1]: U- User G -Guest
