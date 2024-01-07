@@ -24,7 +24,7 @@ namespace Finansista.Controllers
         {
         return View();
         }
-
+        [Authorize]
         public async Task<IActionResult> Dashboard()
         {
 
@@ -38,10 +38,8 @@ namespace Finansista.Controllers
             
           
         }
-
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+    public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

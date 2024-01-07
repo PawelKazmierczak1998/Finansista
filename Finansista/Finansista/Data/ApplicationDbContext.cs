@@ -12,5 +12,6 @@ namespace Finansista.Data
         }
         public DbSet<Finansista.Models.Balance>? Balance { get; set; }
         public DbSet<Finansista.Models.Transaction>? Transaction { get; set; }
+        public DbSet<Finansista.Models.Calculators>? Calculators { get; set; }
     }
 }
