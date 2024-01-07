@@ -1,5 +1,8 @@
 ﻿@model Finansista.Models.Calculators
-
+@{
+    ViewData["Title"] = "Calculators";
+    Layout = "_Layout";
+}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
     <figure class="text-center border-bottom">
         <p class="h2">Oblicz kwotę netto</p>
@@ -8,11 +11,11 @@
 
 <div class="container-fluid border-bottom" >
     <div col-md-4>
-@if (Model.Wynik > 0)
-{
-    <h3>Kwota Netto:</h3>
-    <p>Kwota netto: @Model.Wynik.ToString("C")</p>
-}
+ @if (Model.Wynik>0)
+    {
+        <h3>Kwota Netto:</h3>
+                <p>Kwota netto: @Model.Wynik.ToString("C")</p>
+    }
     </div>
 </div>
 <div class="container-fluid border-bottom">

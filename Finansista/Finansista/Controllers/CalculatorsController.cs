@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Finansista.Data;
 using Finansista.Models;
+using NuGet.ContentModel;
 
 namespace Finansista.Controllers
 {
@@ -20,17 +21,27 @@ namespace Finansista.Controllers
         }
         public IActionResult Index()
         {
-            return View(new Calculators());
+            if (ModelState.IsValid)
+            {
+                return View(new Calculators());
+            }
+           else { return NotFound(); }
         }
 
         [HttpPost]
         public IActionResult Oblicz(Calculators model)
         {
+            if (!ModelState.IsValid)
+            {   
+
+                return View("Index", model);
+            }
+
             model.Wynik = model.KwotaNetto;
             return View("Index", model);
+
         }
-
-
+          
 
     }
 }
