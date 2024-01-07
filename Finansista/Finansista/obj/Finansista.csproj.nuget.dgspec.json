@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "P:\\Programming\\Projects\\Finansista\\Finansista\\Finansista.csproj": {}
+    "P:\\Programming\\Projects\\Repos\\Finansista\\Finansista\\Finansista\\Finansista.csproj": {}
   },
   "projects": {
-    "P:\\Programming\\Projects\\Finansista\\Finansista\\Finansista.csproj": {
+    "P:\\Programming\\Projects\\Repos\\Finansista\\Finansista\\Finansista\\Finansista.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "P:\\Programming\\Projects\\Finansista\\Finansista\\Finansista.csproj",
+        "projectUniqueName": "P:\\Programming\\Projects\\Repos\\Finansista\\Finansista\\Finansista\\Finansista.csproj",
         "projectName": "Finansista",
-        "projectPath": "P:\\Programming\\Projects\\Finansista\\Finansista\\Finansista.csproj",
+        "projectPath": "P:\\Programming\\Projects\\Repos\\Finansista\\Finansista\\Finansista\\Finansista.csproj",
         "packagesPath": "C:\\Users\\Dante\\.nuget\\packages\\",
-        "outputPath": "P:\\Programming\\Projects\\Finansista\\Finansista\\obj\\",
+        "outputPath": "P:\\Programming\\Projects\\Repos\\Finansista\\Finansista\\Finansista\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -61,9 +61,17 @@
               "target": "Package",
               "version": "[6.0.23, )"
             },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[6.0.23, )"
+            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[6.0.23, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.16, )"
             }
           },
           "imports": [

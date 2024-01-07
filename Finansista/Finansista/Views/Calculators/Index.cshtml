@@ -1,0 +1,37 @@
+﻿@model Finansista.Models.Calculators
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
+    <figure class="text-center border-bottom">
+        <p class="h2">Oblicz kwotę netto</p>
+    </figure>
+</div>      
+
+<div class="container-fluid border-bottom" >
+    <div col-md-4>
+@if (Model.Wynik > 0)
+{
+    <h3>Kwota Netto:</h3>
+    <p>Kwota netto: @Model.Wynik.ToString("C")</p>
+}
+    </div>
+</div>
+<div class="container-fluid border-bottom">
+
+         <div class="col-md-4">
+        <form asp-controller="Calculators" asp-action="Oblicz" method="post">
+                    <div>
+                        <label for="KwotaBrutto">Kwota brutto:</label>
+                        <input type="text" asp-for="KwotaBrutto" />
+                    </div>
+    
+        <div>
+                        <label for="StawkaVAT">Stawka VAT (%):</label>
+                        <input type="text" asp-for="StawkaVAT" />
+        </div>
+            <div>
+                        <button type="submit" class="btn btn-primary">Oblicz</button>
+            </div>
+
+        </form>
+            </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Finansista.Models.Balance>
+
+@{
+    ViewData["Title"] = "Balance";
+    Layout = "_Layout";
+}
+<div class="chartjs-size-monitor">
+    <div class="chartjs-size-monitor-expand">
+    </div><div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+</div>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="table-responsive">
+        <h1>Balances</h1>
+        <div class="float-end">
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary"><a asp-action="Create">Create New</a></button>
+                </div>
+            </div>
+        </div>
+ <table class="table table-striped table-sm">
+    <thead>
+        <tr>
+                        <th scope="col">
+                             <p>Amount</p>
+            </th>
+                        <th scope="col">
+                           <p>Name</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+@foreach (var item in Model) {
+        <tr>
+                            <td scope="col">
+                @Html.DisplayFor(modelItem => item.accountBalance)
+            </td>
+            <td scope="col">
+                @Html.DisplayFor(modelItem => item.accountName)
+            </td>
+            <td>
+                               
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+</div>
+
