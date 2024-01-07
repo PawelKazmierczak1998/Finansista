@@ -3,8 +3,8 @@ Asp.net core MVC webapp
 
 |Requirements|Is fulfilled|
 |------------|------------|
-|Data Base   |            |
-|User handling|           |
+|Data Base   |          X  |
+|User handling|         X  |
 |U/G[^1] access split|        |
 |Veersion Control|       X     |
 
