@@ -30,6 +30,8 @@ namespace Finansista.Controllers
 
             IdentityUser user = _userMenager.FindByNameAsync(User.Identity.Name).Result;
            
+           
+
             var applicationDbContext = _context.Transaction
                 .Include(t => t.Balance).
                 Include(e => e.Balance.user)
