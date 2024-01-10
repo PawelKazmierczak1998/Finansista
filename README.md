@@ -1,6 +1,8 @@
-# Finansista
+# Finansista:
 Asp.net core MVC webapp
-
+## Link do strony działa tylko przez 30 dni:
+https://finansista.azurewebsites.net/
+## Requirements List:
 |Requirements|Is fulfilled|
 |------------|------------|
 |Data Base   |          X  |
